@@ -1,5 +1,5 @@
 //
-//  BinaryTreeStruct.swift
+//  BinaryTreeEnum.swift
 //  
 //
 //  Created by Mari Batilando on 6/20/16.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-indirect enum BinaryTreeStruct<T where T: Comparable, T: Equatable> {
+indirect enum BinaryTreeEnum<T where T: Comparable, T: Equatable> {
     case empty
-    case node(BinaryTreeStruct<T>, T, BinaryTreeStruct<T>)
+    case node(BinaryTreeEnum<T>, T, BinaryTreeEnum<T>)
 }
 
-extension BinaryTreeStruct: CustomStringConvertible {
+extension BinaryTreeEnum: CustomStringConvertible {
     
     var description: String {
         switch self {
@@ -27,13 +27,13 @@ extension BinaryTreeStruct: CustomStringConvertible {
     
 }
 
-extension BinaryTreeStruct {
+extension BinaryTreeEnum {
     
     var recursiveInOrderTraversal: [T] {
         return self.recursiveInOrderTraversalHelper(tree: self, values: [])
     }
     
-    private func recursiveInOrderTraversalHelper(tree: BinaryTreeStruct, values: [T]) -> [T] {
+    private func recursiveInOrderTraversalHelper(tree: BinaryTreeEnum, values: [T]) -> [T] {
         var values = values
         
         switch tree {
@@ -63,14 +63,14 @@ extension BinaryTreeStruct {
     
 }
 
-let node7 = BinaryTreeStruct<Int>.node(.empty, 7, .empty)
-let node6 = BinaryTreeStruct<Int>.node(.empty, 6, .empty)
-let node5 = BinaryTreeStruct<Int>.node(.empty, 5, .empty)
-let node4 = BinaryTreeStruct<Int>.node(.empty, 4, .empty)
+let node7 = BinaryTreeEnum<Int>.node(.empty, 7, .empty)
+let node6 = BinaryTreeEnum<Int>.node(.empty, 6, .empty)
+let node5 = BinaryTreeEnum<Int>.node(.empty, 5, .empty)
+let node4 = BinaryTreeEnum<Int>.node(.empty, 4, .empty)
 
-let node3 = BinaryTreeStruct<Int>.node(node6, 3, node7)
-let node2 = BinaryTreeStruct<Int>.node(node4, 2, node5)
+let node3 = BinaryTreeEnum<Int>.node(node6, 3, node7)
+let node2 = BinaryTreeEnum<Int>.node(node4, 2, node5)
 
-let node1 = BinaryTreeStruct<Int>.node(node2, 1, node3)
+let node1 = BinaryTreeEnum<Int>.node(node2, 1, node3)
 
 node1.recursiveInOrderTraversal
