@@ -8,36 +8,44 @@
 
 import Foundation
 
-final class Stack<T> {
+struct Stack<T> {
     private var array = [T]()
     
     var peek: T? {
         return self.array.last
     }
     
-    func pop() -> T {
+    var isEmpty: Bool {
+        return self.array.isEmpty
+    }
+    
+    mutating func pop() -> T {
         return self.array.removeLast()
     }
     
-    func push(element: T) {
+    mutating func push(_ element: T) {
         self.array.append(element)
     }
     
 }
 
-final class Queue<T> {
+struct Queue<T> {
     private var array = [T]()
     
     var peek: T? {
         return self.array.first
     }
     
-    func dequeue() -> T {
+    var isEmpty: Bool {
+        return self.array.isEmpty
+    }
+    
+    mutating func dequeue() -> T {
         return self.array.removeFirst()
     }
     
-    func enqueue(element: T) {
-        self.array.insert(element, at: 0)
+    mutating func enqueue(_ element: T) {
+        self.array.append(element)
     }
-}
     
+}
