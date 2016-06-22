@@ -87,7 +87,6 @@ extension BinaryTreeNode {
         while !queue.isEmpty {
             let node = queue.dequeue()
             results.append(node.value)
-            print(node.value)
             
             if let left = node.left {
                 queue.enqueue(left)
