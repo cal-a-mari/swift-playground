@@ -63,6 +63,34 @@ extension BinaryTreeNode {
     
 }
 
+extension BinaryTreeNode {
+    
+    var iterativePreOrderTraversal: [T] {
+        var result = [T]()
+        var stack = [BinaryTreeNode]()
+        
+        stack.append(self)
+        
+        while !stack.isEmpty {
+            let poppedElement = stack.removeLast()
+            
+            result.append(poppedElement.value)
+            
+            if let right = poppedElement.right {
+                stack.append(right)
+            }
+            
+            if let left = poppedElement.left {
+                stack.append(left)
+            }
+            
+        }
+        
+        return result
+    }
+    
+}
+
 let node1 = BinaryTreeNode(value: 1, parent: nil)
 let node2 = BinaryTreeNode(value: 2, parent: node1)
 let node3 = BinaryTreeNode(value: 3, parent: node1)
@@ -79,4 +107,4 @@ let node7 = BinaryTreeNode(value: 7, parent: node4)
 node3.left = node6
 node3.right = node7
 
-print(node1.recursivePreOrderTraversal)
+print(node1.iterativePreOrderTraversal)
