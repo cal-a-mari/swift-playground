@@ -50,7 +50,7 @@ struct Queue<T> {
     
 }
 
-class BinaryTreeNode<T where T: Comparable, T: Equatable, T:Hashable> {
+final class BinaryTreeNode<T where T: Comparable, T: Equatable, T:Hashable> {
     var value: T
     var left: BinaryTreeNode?
     var right: BinaryTreeNode?
