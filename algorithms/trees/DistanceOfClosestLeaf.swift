@@ -27,13 +27,16 @@ extension BinaryTreeNode {
     }
     
     private func getAncestorsHelper(node: BinaryTreeNode, value: T, ancestors: inout [BinaryTreeNode]) -> Bool {
-        if (node.left?.value == value) || (node.right?.value == value) {
-            ancestors.append(node)
+        if node.value == value {
             return true
-        } else if let left = node.left where self.getAncestorsHelper(node: left, value: value, ancestors: &ancestors) {
+        }
+        
+        if let left = node.left where self.getAncestorsHelper(node: left, value: value, ancestors: &ancestors) {
             ancestors.insert(node, at: 0)
+            return true
         } else if let right = node.right where self.getAncestorsHelper(node: right, value: value, ancestors: &ancestors) {
             ancestors.insert(node, at: 0)
+            return true
         }
         
         return false
