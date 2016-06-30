@@ -25,25 +25,28 @@ final class BinarySearchTreeNode<T where T: Comparable, T: Equatable> {
         self.value = value
     }
     
-    func insert(node: BinarySearchTreeNode) {
-        var currNode: BinarySearchTreeNode? = self
+    func insert(value: T) {
+        var currentNode: BinarySearchTreeNode? = self
         
-        while let aNode = currNode {
-            if node.value > aNode.value {
-                // Insert the value if it's a leaf
-                guard aNode.right != nil else {
-                    aNode.right = node
+        while let currNode = currentNode {
+            guard value != currNode.value else {
+                return
+            }
+            
+            if value < currNode.value {
+                if currNode.left == nil {
+                    currNode.left = BinarySearchTreeNode<T>(value: value)
                     return
+                } else {
+                    currentNode = currentNode?.left
                 }
-                
-                currNode = currNode?.right
             } else {
-                guard aNode.left != nil else {
-                    aNode.left = node
+                if currNode.right == nil {
+                    currNode.right = BinarySearchTreeNode<T>(value: value)
                     return
+                } else {
+                    currentNode = currentNode?.right
                 }
-                
-                currNode = currNode?.left
             }
         }
     }
