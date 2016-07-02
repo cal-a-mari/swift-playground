@@ -11,24 +11,23 @@ import Foundation
 extension BinarySearchTreeNode {
     
     func leastCommonAncestor(ofNodeAWithValue valueA: T, andNodeBWithValue valueB: T) -> BinarySearchTreeNode? {
-        var currentNode: BinarySearchTreeNode? = self
         let minVal = min(valueA, valueB)
         let maxVal = max(valueA, valueB)
         
-        while let current = currentNode {
-            // If the value of the current node is both less than min and max, then go left
-            if (current.value < minVal) && (current.value < maxVal) {
-                currentNode = currentNode?.right
-                // If both are greater then go right
-            } else if (current.value > minVal) && (current.value > maxVal) {
-                currentNode = currentNode?.left
-            } else {
-                // If the value is between min and max then return the node
-                return current
+        var currNode: BinarySearchTreeNode? = self
+        while let node = currNode {
+            if (node.value > minVal) && (node.value < maxVal) {
+                return node
+            } else if node.value < minVal {
+                currNode = node.right
+            } else if node.value > maxVal {
+                currNode = node.left
+            } else if (node.value == minVal) || (node.value == maxVal) {
+                return currNode
             }
         }
         
-        return currentNode
+        return nil
     }
     
 }

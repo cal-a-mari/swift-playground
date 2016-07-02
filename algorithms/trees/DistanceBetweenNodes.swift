@@ -30,21 +30,17 @@ extension BinaryTreeNode {
             return counter
         }
         
-        var lDistance: Int
+        var leftCounter = Int.max
         if let left = node.left {
-            lDistance = self.distanceHelper(node: left, valueToSearch: value, counter: counter + 1)
-        } else {
-            lDistance = Int.max
+            leftCounter = self.distanceHelper(node: left, valueToSearch: value, counter: counter + 1)
         }
         
-        var rDistance: Int
+        var rightCounter = Int.max
         if let right = node.right {
-            rDistance = self.distanceHelper(node: right, valueToSearch: value, counter: counter + 1)
-        } else {
-            rDistance = Int.max
+            rightCounter = self.distanceHelper(node: right, valueToSearch: value, counter: counter + 1)
         }
         
-        return min(lDistance, rDistance)
+        return min(leftCounter, rightCounter)
     }
     
 }
