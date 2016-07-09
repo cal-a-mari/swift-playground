@@ -162,12 +162,6 @@ extension Array where Element: Comparable {
         return Range(uncheckedBounds: (lower, higher))
     }
     
-    private func safeSwap(arr: inout [Element], a: Index, b: Index) {
-        if a != b {
-            swap(&arr[a], &arr[b])
-        }
-    }
-    
 }
 
 
