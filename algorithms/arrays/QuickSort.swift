@@ -126,7 +126,52 @@ extension Array where Element: Comparable {
         }
     }
     
+    func dutchNationalFlagQuicksort(array: inout [Element]) {
+        self.dutchNationalFlagQuicksort(array: &array, low: array.startIndex, high: array.endIndex - 1)
+    }
+    
+    private func dutchNationalFlagQuicksort(array: inout [Element], low: Index, high: Index) {
+        if low < high {
+            let randomPivotIndex = Int(arc4random_uniform(UInt32(array.count)))
+            let pRange = self.dutchNationalFlagPartition(array: &array, pivotIndex: randomPivotIndex, low: low, high: high)
+            self.dutchNationalFlagQuicksort(array: &array, low: low, high: pRange.lowerBound - 1)
+            self.dutchNationalFlagQuicksort(array: &array, low: pRange.upperBound + 1, high: high)
+        }
+    }
+    
+    private func dutchNationalFlagPartition(array: inout [Element], pivotIndex: Index, low: Index, high: Index) -> Range<Index> {
+        let pivot = array[pivotIndex]
+        
+        var lower = low
+        var equal = lower
+        var higher = high
+        
+        while equal <= higher {
+            if array[equal] < pivot {
+                self.safeSwap(arr: &array, a: equal, b: lower)
+                lower += 1
+                equal += 1
+            } else if array[equal] == pivot {
+                equal += 1
+            } else {
+                self.safeSwap(arr: &array, a: equal, b: higher)
+                higher -= 1
+            }
+        }
+        
+        return Range(uncheckedBounds: (lower, higher))
+    }
+    
+    private func safeSwap(arr: inout [Element], a: Index, b: Index) {
+        if a != b {
+            swap(&arr[a], &arr[b])
+        }
+    }
+    
 }
+
+
+
 
 
 
