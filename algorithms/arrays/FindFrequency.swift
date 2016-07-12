@@ -23,29 +23,23 @@ extension Array where Element: Comparable, Element: Hashable {
         
         return elementToFrequency[element] ?? 0
     }
-    
-    static func findFrequencyOfAllElements(inSortedArray array: [Element]) -> [Element: Int] {
-        var dict = [Element: Int]()
-        self.findFrequency(array: array, min: array.startIndex, max: array.endIndex - 1, elementToFrequency: &dict)
-        return dict
+        
+    static func findAllFrequenciesOfElements(array: [Element]) -> [Element: Int] {
+        var frequencies = [Element: Int]()
+        self.findAllFrequenciesOfElements(array: array, min: array.startIndex, max: array.endIndex - 1, frequencies: &frequencies)
+        return frequencies
     }
     
-    static func findFrequency(array: [Element], min: Index, max: Index, elementToFrequency: inout [Element: Int]) {
+    static func findAllFrequenciesOfElements(array: [Element], min: Index, max: Index, frequencies: inout [Element: Int]) {
         if array[min] == array[max] {
-            
-            if elementToFrequency[array[min]] != nil {
-                elementToFrequency[array[min]]! += max - min + 1
-            } else {
-                elementToFrequency[array[min]] = max - min + 1
-            }
-            
+            let freq = frequencies[array[min]] ?? 0
+            frequencies[array[min]] = freq + (max - min + 1)
         } else {
             let mid = (min + max) / 2
-            self.findFrequency(array: array, min: min, max: mid, elementToFrequency: &elementToFrequency)
-            self.findFrequency(array: array, min: mid + 1, max: max, elementToFrequency: &elementToFrequency)
+            self.findAllFrequenciesOfElements(array: array, min: min, max: mid, frequencies: &frequencies)
+            self.findAllFrequenciesOfElements(array: array, min: mid + 1, max: max, frequencies: &frequencies)
         }
-    }
-    
+    }    
 }
 
 
