@@ -10,51 +10,44 @@ import Foundation
 
 extension BinaryTreeNode {
     func leastCommonAncestor(ofNodeWithValueA valueA: T, andNodeWithValueB valueB: T) -> BinaryTreeNode? {
-        guard let pathToA = self.path(toNodeWithValue: valueA), pathToB = self.path(toNodeWithValue: valueB) else {
-            return nil
+        let valueAPath = self.path(toValue: valueA)
+        let valueBPath = self.path(toValue: valueB)
+        
+        guard !valueAPath.isEmpty && !valueBPath.isEmpty else {
+                return nil
         }
         
         var lca: BinaryTreeNode?
         
-        for i in 0..<min(pathToA.count, pathToB.count) {
-            let a = pathToA[i].value
-            let b = pathToB[i].value
-            
-            if a != b {
+        for i in 0..<min(valueAPath.count, valueBPath.count) {
+            if valueAPath[i].value != valueBPath[i].value {
                 return lca
             } else {
-                lca = pathToA[i]
+                lca = valueAPath[i]
             }
         }
         
         return lca
     }
     
-    private func path(toNodeWithValue value: T) -> [BinaryTreeNode]? {
-        return self.pathHelper(value: value, node: self, path: [BinaryTreeNode]())
+    func path(toValue value: T) -> [BinaryTreeNode] {
+        var path = [BinaryTreeNode]()
+        let _ = self.path(toValue: value, node: self, currPath: &path)
+        return path
     }
     
-    private func pathHelper(value: T, node: BinaryTreeNode, path: [BinaryTreeNode]) -> [BinaryTreeNode]? {
+    private func path(toValue value: T, node: BinaryTreeNode, currPath: inout [BinaryTreeNode]) -> Bool {
         if node.value == value {
-            var path = path
-            path.append(node)
-            return path
+            currPath.insert(node, at: 0)
+            return true
+        } else if let left = node.left where self.path(toValue: value, node: left, currPath: &currPath) {
+            currPath.insert(node, at: 0)
+            return true
+        } else if let right = node.right where self.path(toValue: value, node: right, currPath: &currPath) {
+            currPath.insert(node, at: 0)
+            return true
+        } else {
+            return false
         }
-        
-        var leftPath: [BinaryTreeNode]?
-        if let left = node.left {
-            var lPath = path
-            lPath.append(node)
-            leftPath = self.pathHelper(value: value, node: left, path: lPath)
-        }
-        
-        var rightPath: [BinaryTreeNode]?
-        if let right = node.right {
-            var rPath = path
-            rPath.append(node)
-            rightPath = self.pathHelper(value: value, node: right, path: rPath)
-        }
-        
-        return leftPath ?? rightPath
     }
 }
