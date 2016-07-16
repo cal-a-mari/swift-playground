@@ -73,6 +73,14 @@ final class BinaryTreeNode<T where T: Comparable, T: Equatable, T:Hashable> {
     
 }
 
+extension BinaryTreeNode: CustomStringConvertible {
+    
+    var description: String {
+        return String(self.value)
+    }
+    
+}
+
 extension BinaryTreeNode {
     
     var breadthFirstTraversal: [T] {
