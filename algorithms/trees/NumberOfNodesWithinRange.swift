@@ -35,4 +35,28 @@ extension BinarySearchTreeNode {
         return total
     }
     
+    func numberOfNodes(withinRange range: Range<T>) -> Int {
+        var counter = 0
+        var stack = Stack<BinarySearchTreeNode>()
+        stack.push(element: self)
+        
+        while !stack.isEmpty {
+            let popped = stack.pop()
+            
+            if range.contains(popped.value) {
+                counter += 1
+            }
+            
+            if let left = popped.left where left.value >= range.lowerBound {
+                stack.push(element: left)
+            }
+            
+            if let right = popped.right where right.value < range.upperBound { // Range is not inclusive of its upper bound
+                stack.push(element: right)
+            }
+        }
+        
+        return counter
+    }
+    
 }
