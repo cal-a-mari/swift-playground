@@ -10,28 +10,32 @@ import Foundation
 
 extension Array {
     
-    static func longestCommonPrefix(array: [String]) -> String {
-        guard array.count > 1 else {
-            return array.first ?? ""
+    static func longestCommonPrefix(strings: [String]) -> String {
+        guard strings.count > 1 else {
+            return strings.first ?? ""
         }
-        // O(length of array)
-        var shortestString = self.getShortestString(array: array)
-        var substr = ""
-        // O(length of shortest string)
-        for i in 0..<shortestString.characters.count {
-            let charIndex = shortestString.index(shortestString.startIndex, offsetBy: i)
-            let char = shortestString[charIndex]
-            // O(length of array)
-            for str in array {
-                if str[charIndex] != char {
-                    return substr
+        
+        let shortestStr = self.getShortestString(array: strings)
+        var longestPrefix = [Character]()
+        
+        for (index, char) in shortestStr.characters.enumerated() {
+            var hasPrefix = true
+            
+            for str in strings {
+                let charIndex = str.characters.index(str.startIndex, offsetBy: index)
+                
+                if str.characters[charIndex] != char {
+                    hasPrefix = false
+                    break
                 }
             }
             
-            substr += String(shortestString[charIndex])
+            if hasPrefix {
+                longestPrefix.append(char)
+            }
         }
         
-        return substr
+        return String(longestPrefix)
     }
     
     static func getShortestString(array: [String]) -> String {
