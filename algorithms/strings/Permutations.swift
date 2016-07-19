@@ -10,45 +10,37 @@ import Foundation
 
 extension String {
     var permutations: [String] {
-        return self.permutations(string: self)
-    }
-    
-    private func permutations(string: String) -> [String] {
         var countMap = [Character: Int]()
         
-        for char in string.characters {
+        for char in self.characters {
             let currCount = countMap[char] ?? 0
             countMap[char] = currCount + 1
         }
         
-        var permutations = [String]()
-        
-        self.permute(origStr: string, charCount: countMap, result: [Character](), level: 0, permutations: &permutations)
-        
-        return permutations
+        var results = [String]()
+        self.dynamicType.permutations(ofString: self, currStr: [Character](), countMap: countMap, results: &results)
+        return results
     }
     
-    private func permute(origStr: String, charCount: [Character: Int], result: [Character], level: Int, permutations: inout [String]) {
-        if level == origStr.characters.count {
-            permutations.append(String(result))
-            return
+    static func permutations(ofString string: String, currStr: [Character], countMap: [Character: Int], results: inout [String]) {
+        if currStr.count == string.characters.count {
+            results.append(String(currStr))
         }
         
-        for (char, count) in charCount {
-            if count == 0 {
+        for (key, value) in countMap {
+            if value == 0 {
                 continue
             }
             
-            var newResult = result
-            newResult.insert(char, at: level)
+            var newStr = currStr
+            newStr.append(key)
             
-            var newCharCount = charCount
-            newCharCount[char]! -= 1
+            var newCount = countMap
+            newCount[key]! -= 1
             
-            self.permute(origStr: origStr, charCount: newCharCount, result: newResult, level: level + 1, permutations: &permutations)
+            self.permutations(ofString: string, currStr: newStr, countMap: newCount, results: &results)
         }
     }
-
 }
 
 
