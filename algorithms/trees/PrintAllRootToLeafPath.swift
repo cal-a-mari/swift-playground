@@ -10,27 +10,28 @@ import Foundation
 
 extension BinaryTreeNode {
     
-    func printAllRootToLeafPaths() {
-        self.allRootToLeafPathHelper(node: self, values: [T]())
+    static func allPathsToLeaves(root: BinaryTreeNode) -> [[BinaryTreeNode]] {
+        var allPaths = [[BinaryTreeNode]]()
+        self.allPathsToLeaves(currNode: root, currPath: [BinaryTreeNode](), allPaths: &allPaths)
+        return allPaths
     }
     
-    private func allRootToLeafPathHelper(node: BinaryTreeNode, values: [T]) {
-        var values = values
-        values.append(node.value)
+    static func allPathsToLeaves(currNode: BinaryTreeNode, currPath: [BinaryTreeNode], allPaths: inout [[BinaryTreeNode]]) {
+        var newPath = currPath
+        newPath.append(currNode)
         
-        guard !node.isLeaf else {
-            print(values)
+        guard !currNode.isLeaf else {
+            allPaths.append(newPath)
             return
         }
         
-        if let left = node.left {
-            self.allRootToLeafPathHelper(node: left, values: values)
+        if let left = currNode.left {
+            self.allPathsToLeaves(currNode: left, currPath: newPath, allPaths: &allPaths)
         }
         
-        if let right = node.right {
-            self.allRootToLeafPathHelper(node: right, values: values)
+        if let right = currNode.right {
+            self.allPathsToLeaves(currNode: right, currPath: newPath, allPaths: &allPaths)
         }
-        
     }
     
 }
