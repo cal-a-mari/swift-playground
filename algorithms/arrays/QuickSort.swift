@@ -148,13 +148,13 @@ extension Array where Element: Comparable {
         
         while equal <= higher {
             if array[equal] < pivot {
-                self.safeSwap(arr: &array, a: equal, b: lower)
+                self.dynamicType.safeSwap(arr: &array, a: equal, b: lower)
                 lower += 1
                 equal += 1
             } else if array[equal] == pivot {
                 equal += 1
             } else {
-                self.safeSwap(arr: &array, a: equal, b: higher)
+                self.dynamicType.safeSwap(arr: &array, a: equal, b: higher)
                 higher -= 1
             }
         }

@@ -24,7 +24,7 @@ extension Array where Element: Comparable {
         for i in 0..<self.count {
             var j = i
             while j > 0 && self[j] < self[j - 1] {
-                self.safeSwap(arr: &self, a: j, b: j - 1)
+                self.dynamicType.safeSwap(arr: &self, a: j, b: j - 1)
                 j -= 1
             }
         }
