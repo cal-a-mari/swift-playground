@@ -35,4 +35,33 @@ extension Collection where Iterator.Element == Int {
         return included || excluded
     }
     
+    var tabularPartitionable: Bool {
+        let sum = self.reduce(0) { return $0 + $1 }
+        
+        guard sum % 2 == 0 else {
+            return false
+        }
+        
+        let count = self.count as! Int
+        var values = Array(repeatElement(Array(repeatElement(false, count: count + 1)), count: (sum / 2) + 1))
+        
+        for i in 0...count {
+            values[0][i] = true
+        }
+        
+        for i in 1...(sum / 2) {
+            for j in 1...count {
+                values[i][j] = values[i][j - 1]
+                let anIndex = self.index(j as! Index, offsetBy: -1)
+                
+                if i >= self[anIndex] {
+                    let someIndex = self.index(self.startIndex, offsetBy: (j - 1) as! IndexDistance)
+                    values[i][j] = values[i][j] || values[i - self[someIndex]][j - 1]
+                }
+            }
+        }
+        
+        return values[sum / 2][self.count as! Int]
+    }
+    
 }
