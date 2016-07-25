@@ -13,6 +13,24 @@ final class LinkedList<T where T: Comparable, T: Equatable> {
     var head: Node?
 }
 
+extension LinkedList: CustomStringConvertible {
+    
+    var description: String {
+        var desc = "HEAD"
+        var currNode = self.head
+        
+        while let node = currNode {
+            desc += "\(node.description)-->"
+            currNode = currNode?.next
+        }
+        
+        desc += "END"
+        
+        return desc
+    }
+    
+}
+
 final class LinkedListNode<T where T:Comparable, T: Equatable> {
     var value: T
     var next: LinkedListNode?
