@@ -15,39 +15,21 @@ extension Array {
             return strings.first ?? ""
         }
         
-        let shortestStr = self.getShortestString(array: strings)
-        var longestPrefix = [Character]()
+        var chars = [Character]()
+        var shortestStr = strings.min()!
         
-        for (index, char) in shortestStr.characters.enumerated() {
-            var hasPrefix = true
-            
+        for (i, char) in shortestStr.characters.enumerated() {
             for str in strings {
-                let charIndex = str.characters.index(str.startIndex, offsetBy: index)
-                
-                if str.characters[charIndex] != char {
-                    hasPrefix = false
-                    break
+                let charIndex = str.characters.index(str.characters.startIndex, offsetBy: i)
+                if str[charIndex] != char {
+                    return String(chars)
                 }
             }
             
-            if hasPrefix {
-                longestPrefix.append(char)
-            }
+            chars.append(char)
         }
         
-        return String(longestPrefix)
-    }
-    
-    static func getShortestString(array: [String]) -> String {
-        var shortestString = array.first
-        
-        for str in array {
-            if str.characters.count < shortestString?.characters.count {
-                shortestString = str
-            }
-        }
-        
-        return shortestString ?? ""
+        return String(chars)
     }
     
 }
