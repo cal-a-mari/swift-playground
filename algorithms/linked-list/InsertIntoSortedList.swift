@@ -12,31 +12,39 @@ extension LinkedList {
     
     /// Note: This is for a sorted LinkedList
     func sortedInsert(value: T) {
-        let newNode = LinkedListNode(value: value)
+        guard let head = self.head else {
+            // If this is the first node going to be inserted
+            self.head = LinkedListNode<T>(value: value)
+            return
+        }
         
-        guard let head = self.head where head.value < value  else {
-            // When the new value we want to insert is the new head of the linked list
-            newNode.next = self.head
-            self.head = newNode
+        let nodeToInsert = LinkedListNode<T>(value: value)
+        
+        if value < head.value {
+            // If this is the new head of the linked list
+            nodeToInsert.next = head
+            self.head = nodeToInsert
             return
         }
         
         var ptrA = head
-        var ptrB = head.next
+        var ptrB = ptrA.next
         
-        while ptrB != nil && ptrB?.value < value {
-            ptrA = ptrA.next!
-            ptrB = ptrB?.next
+        while ptrB != nil {
+            if value < ptrB!.value {
+                // Normal case for inserting a value in the middle of the list
+                nodeToInsert.next = ptrB!.next
+                ptrB!.next = nil
+                ptrA.next = nodeToInsert
+                return
+            } else {
+                ptrA = ptrB!
+                ptrB = ptrB!.next
+            }
         }
         
-        // If the value we need to insert is the new tail of the list
-        if ptrB == nil {
-            ptrA.next = newNode
-        } else {
-            // This is the normal case if the value is in the middle of the linked list
-            newNode.next = ptrA.next
-            ptrA.next = newNode
-        }
+        // Edge case for the node being the new tail
+        ptrA.next = nodeToInsert
     }
     
 }
