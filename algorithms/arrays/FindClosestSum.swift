@@ -43,38 +43,3 @@ extension Collection where Iterator.Element == Int {
     }
     
 }
-
-
-//extension Array {
-//    
-//    static func closestPair(toSum sum: Int, inSortedArray array: [Int]) -> (Int, Int) {
-//        guard array.count > 2 else {
-//            return (array[array.startIndex], array[array.endIndex - 1])
-//        }
-//
-//        var l = array.startIndex
-//        var r = array.endIndex - 1
-//        
-//        var closestPair = (array[l], array[r])
-//        
-//        while l < r {
-//            let currSum = array[l] + array[r]
-//            let oldSum = closestPair.0 + closestPair.1
-//            
-//            if array[l] + array[r] == sum {
-//                return (array[l], array[r])
-//            } else if abs(sum - currSum) < abs(sum - oldSum) {
-//                closestPair = (array[l], array[r])
-//            }
-//            
-//            if array[l] + array[r] > sum {
-//                r -= 1
-//            } else {
-//                l += 1
-//            }
-//        }
-//        
-//        return closestPair
-//    }
-//    
-//}
