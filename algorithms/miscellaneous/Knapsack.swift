@@ -30,20 +30,17 @@ private func knapsack(capacity: Int, weights: [KnapsackItem], n: Int) -> Int {
 }
 
 func tabularKnapsack(capacity: Int, items: [KnapsackItem]) -> Int {
-    var values = Array(repeating: Array(repeating: 0, count: capacity + 1), count: items.count + 1)
+    var values = Array(repeatElement(Array(repeatElement(0, count: capacity + 1)), count: items.count + 1))
     
-    for i in 0...items.count {
-        for j in 0...capacity {
-            if i == 0 || j == 0 {
-                continue
-            }
-            
+    for i in 1...items.count {
+        for j in 1...capacity {
             let item = items[i - 1]
-            if item.weight <= j {
+            
+            if item.weight > j {
+                values[i][j] = values[i - 1][j]
+            } else {
                 values[i][j] = max(values[i - 1][j],
                                    values[i - 1][j - item.weight] + item.value)
-            } else {
-                values[i][j] = values[i - 1][j]
             }
         }
     }
