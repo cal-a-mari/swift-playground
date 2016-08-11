@@ -15,25 +15,17 @@ extension Array where Element: Comparable {
     }
     
     private static func longestIncreasingSubsequence(array: [Element]) -> Int {
-        var lis = [Int](repeating: 1, count: array.count)
+        var values = [Int](repeatElement(1, count: array.count))
         
-        for i in 1..<array.count {
+        for i in 0..<values.count {
             for j in 0..<i {
-                if (array[j] < array[i]) && (lis[i] < lis[j] + 1) {
-                    lis[i] = lis[j] + 1
+                if (array[j] < array[i]) && (values[i] < values[j] + 1) {
+                    values[i] = values[j] + 1
                 }
             }
         }
         
-        var max = 0
-        
-        for longest in lis {
-            if longest > max {
-                max = longest
-            }
-        }
-        
-        return max
+        return values.max()!
     }
     
 }

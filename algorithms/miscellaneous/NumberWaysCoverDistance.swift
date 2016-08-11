@@ -26,6 +26,20 @@ func memoizedWaysToCover(distance: Distance) -> Int {
     return memoizedWaysToCover(distance: distance, values: &values)
 }
 
+// Runtime: O(distance)
+func tabularWaysToCover(distance: Distance) -> Int {
+    var values = [Distance](repeatElement(0, count: distance + 1))
+    values[0] = 0
+    values[1] = 1
+    values[2] = 2
+    
+    for i in 3...distance {
+        values[i] = values[i - 1] + values[i - 2] + values[i - 3]
+    }
+    
+    return values[distance]
+}
+
 private func memoizedWaysToCover(distance: Distance, values: inout [Distance: Int]) -> Int {
     if distance == 0 {
         return 1
@@ -60,19 +74,6 @@ private func memoizedWaysToCover(distance: Distance, values: inout [Distance: In
     return dist1 + dist2 + dist3
 }
 
-// Runtime: O(distance)
-func tabularWaysToCover(distance: Distance) -> Int {
-    var values = [Distance](repeatElement(0, count: distance + 1))
-    values[0] = 0
-    values[1] = 1
-    values[2] = 2
-    
-    for i in 3...distance {
-        values[i] = values[i - 1] + values[i - 2] + values[i - 3]
-    }
-    
-    return values[distance]
-}
 
 
 

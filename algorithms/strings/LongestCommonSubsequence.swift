@@ -18,6 +18,7 @@ extension String {
         return res
     }
     
+    // Runtime: O(2^n)
     private static func lengthofLongestCommonSubsequence(strA: String, indexA: Int, strB: String, indexB: Int) -> Int {
         guard (indexA >= 0) && (indexB >= 0) else {
             return 0
@@ -38,22 +39,27 @@ extension String {
         }
     }
     
+    // Runtime: O(strA.length * strB.length)
     static func tabularLCS(strA: String, strB: String) -> Int {
-        var table = Array(repeating: Array(repeatElement(0, count: strB.characters.count + 1)), count: strA.characters.count + 1)
+        var values = Array(repeatElement(Array(repeatElement(0, count: strB.characters.count + 1)), count: strA.characters.count + 1))
         
-        // table[i][j] contains length of LCS of X[0..i-1] and Y[0..j-1]
-        for (i, charA) in strA.characters.enumerated() {
-            for (j, charB) in strB.characters.enumerated() {
+        for i in 1...strA.characters.count {
+            for j in 1...strB.characters.count {
+                let charA = strA[strA.index(strA.startIndex, offsetBy: i - 1)]
+                let charB = strB[strB.index(strB.startIndex, offsetBy: j - 1)]
+                
                 if charA == charB {
-                    table[i + 1][j + 1] = table[i][j] + 1
+                    values[i][j] = values[i - 1][j - 1] + 1
                 } else {
-                    table[i + 1][j + 1] = max(table[i][j + 1], table[i + 1][j])
+                    values[i][j] = max(values[i - 1][j],
+                                       values[i][j - 1])
                 }
             }
-            
         }
         
-        return table[strA.characters.count][strB.characters.count]
+        return values[strA.characters.count][strB.characters.count]
     }
     
 }
+
+
