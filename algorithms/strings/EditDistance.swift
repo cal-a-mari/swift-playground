@@ -37,28 +37,40 @@ extension String {
         }
     }
     
-    static func tabularEditDistance(strA: String, strB: String) -> Int {
-        var distances = Array(repeating: Array(repeatElement(0, count: strB.characters.count)), count: strA.characters.count)
+    static func optEditDistance(strA: String, strB: String) -> Int {
+        // values[i][j] contains the edit distance from strA[0...i] and strB[0...j]
+        var values = Array(repeatElement(Array(repeatElement(0, count: strB.characters.count + 1)), count: strA.characters.count + 1))
         
-        for (i, charA) in strA.characters.enumerated() {
-            for (j, charB) in strB.characters.enumerated() {
-                if i == 0 {
-                    distances[i][j] = j
-                } else if j == 0 {
-                    distances[i][j] = i
-                } else if charA == charB {
-                    distances[i][j] = distances[i - 1][j - 1]
+        // the edit distance for strA[0...i] and an empty strB is i
+        for i in 0...strA.characters.count {
+            values[i][0] = i
+        }
+        
+        // the edit distance for strB[0...j] and an empty strA is j
+        for j in 0...strB.characters.count {
+            values[0][j] = j
+        }
+        
+        for i in 1...strA.characters.count {
+            let charAIndex = strA.index(strA.startIndex, offsetBy: i - 1)
+            let charA = strA[charAIndex]
+            
+            for j in 1...strB.characters.count {
+                let charBIndex = strB.index(strB.startIndex, offsetBy: j - 1)
+                let charB = strB[charBIndex]
+                
+                if charA == charB {
+                    values[i][j] = values[i - 1][j - 1]
                 } else {
-                    let insertDist = distances[i][j - 1]
-                    let removeDist = distances[i - 1][j]
-                    let replaceDist = distances[i - 1][j - 1]
-                    
-                    distances[i][j] = 1 + min(insertDist, removeDist, replaceDist)
+                    let remove = values[i - 1][j]
+                    let replace = values[i - 1][j - 1]
+                    let insert = values[i][j - 1]
+                    values[i][j] = 1 + min(remove, replace, insert)
                 }
             }
         }
         
-        return distances[strA.characters.count - 1][strB.characters.count - 1]
+        return values[strA.characters.count][strB.characters.count]
     }
     
 }
