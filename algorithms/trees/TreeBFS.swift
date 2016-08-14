@@ -108,4 +108,52 @@ extension BinaryTreeNode {
         return results
     }
     
+    var inOrderTraversal: [T] {
+        var stack = Stack<BinaryTreeNode>()
+        stack.push(element: self)
+        
+        var currNode: BinaryTreeNode? = self
+        var result = [T]()
+        
+        while !stack.isEmpty {
+            while let left = currNode?.left {
+                stack.push(element: left)
+                currNode = currNode!.left
+            }
+            
+            let popped = stack.pop()
+            result.append(popped.value)
+            
+            if let right = popped.right {
+                stack.push(element: right)
+                currNode = right
+            }
+            
+        }
+        
+        return result
+    }
+    
+    var preOrderTraversal: [T] {
+        var stack = Stack<BinaryTreeNode>()
+        stack.push(element: self)
+        var result = [T]()
+        
+        while !stack.isEmpty {
+            let popped = stack.pop()
+            result.append(popped.value)
+            
+            if let right = popped.right {
+                stack.push(element: right)
+            }
+            
+            if let left = popped.left {
+                stack.push(element: left)
+            }
+        }
+        
+        return result
+    }
+    
+    
 }
