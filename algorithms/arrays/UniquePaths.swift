@@ -19,13 +19,13 @@ private func numberOfUniquePaths(m: Int, n: Int, i: Int, j: Int) -> Int {
     
     // Move down
     var downPath = 0
-    if i < m - 1 {
+    if i < m {
         downPath = numberOfUniquePaths(m: m, n: n, i: i + 1, j: j)
     }
     
     // Move right
     var rightPath = 0
-    if j < n - 1 {
+    if j < n {
         rightPath = numberOfUniquePaths(m: m, n: n, i: i, j: j + 1)
     }
     
