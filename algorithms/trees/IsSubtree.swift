@@ -11,26 +11,33 @@ import Foundation
 extension BinaryTreeNode {
     
     func isSubtree(ofTree tree: BinaryTreeNode) -> Bool {
-        return self.dynamicType.isSubtreeHelper(tree: tree, currentNode: self)
+        return self.dynamicType.tree(self, isSubtreeOfAnotherTree: tree)
     }
     
-    private static func isSubtreeHelper(tree: BinaryTreeNode?, currentNode node: BinaryTreeNode?) -> Bool {
-        if node == nil {
+    private static func tree(_ tree: BinaryTreeNode?, isSubtreeOfAnotherTree anotherTree: BinaryTreeNode?) -> Bool {
+        if tree == nil {
             return true
         }
         
-        if tree == nil {
+        if anotherTree == nil {
             return false
         }
         
-        if tree!.value == node!.value {
+        if self.tree(tree, isIdenticalTo: anotherTree) {
             return true
         }
         
-        let left = self.isSubtreeHelper(tree: tree!.left, currentNode: node!.left)
-        let right = self.isSubtreeHelper(tree: tree!.right, currentNode: node!.right)
+        return self.tree(tree, isSubtreeOfAnotherTree: anotherTree?.left) || self.tree(tree, isSubtreeOfAnotherTree: anotherTree)
+    }
+    
+    private static func tree(_ tree: BinaryTreeNode<T>?, isIdenticalTo otherTree: BinaryTreeNode<T>?) -> Bool {
+        if tree == nil && otherTree == nil {
+            return true
+        }
         
-        return left || right
+        let rootIsIdentical = tree?.value == otherTree?.value
+        
+        return rootIsIdentical && self.tree(tree?.left, isIdenticalTo: otherTree?.left) && self.tree(tree?.right, isIdenticalTo: otherTree?.right)
     }
     
     func optIsSubtree(ofTree tree: BinaryTreeNode) -> Bool {
