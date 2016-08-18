@@ -8,40 +8,51 @@
 
 import Foundation
 
-extension BinaryTreeNode {
-    
-    static func constructTree(inOrder: [T], postOrder: [T]) -> BinaryTreeNode {
-        return self.constructTree(inOrder: inOrder,
-                                  inStart: inOrder.startIndex,
-                                  inEnd: inOrder.endIndex - 1,
-                                  postOrder: postOrder,
-                                  postStart: postOrder.startIndex,
-                                  postEnd: postOrder.endIndex - 1)!
-    }
-    
-    private static func constructTree(inOrder: [T], inStart: Int, inEnd: Int, postOrder: [T], postStart: Int, postEnd: Int) -> BinaryTreeNode? {
-        if inStart > inEnd || postStart > postEnd {
-            return nil
-        }
-        
-        let root = BinaryTreeNode(value: postOrder[postEnd], parent: nil)
-        let rootIndex = inOrder.index { $0 == postOrder[postEnd] }!
-        
-        root.left = self.constructTree(inOrder: inOrder,
-                                       inStart: inStart,
-                                       inEnd: rootIndex - 1,
-                                       postOrder: postOrder,
-                                       postStart: postStart,
-                                       postEnd: postStart + rootIndex - (inStart + 1))
-        
-        root.right = self.constructTree(inOrder: inOrder,
-                                        inStart: rootIndex + 1,
-                                        inEnd: inEnd,
-                                        postOrder: postOrder,
-                                        postStart: postStart + rootIndex - inStart,
-                                        postEnd: postEnd - 1)
-        
-        return root
-    }
-    
+/*
+	Given inorder and postorder traversal of a tree, construct the binary tree.
+*/
+
+func constructTree(inOrder: [Int], postOrder: [Int]) -> BinaryTreeNode<Int>? {
+	var postIndex = postOrder.endIndex - 1
+	return constructTree(inOrder: inOrder,
+	                     postOrder: postOrder,
+	                     inStart: inOrder.startIndex,
+	                     inEnd: inOrder.endIndex - 1,
+	                     postIndex: &postIndex)
+}
+
+private func constructTree(inOrder: [Int], postOrder: [Int], inStart: Int, inEnd: Int, postIndex: inout Int) -> BinaryTreeNode<Int>? {
+	guard inStart <= inEnd else {
+		return nil
+	}
+	
+	let rootValue = postOrder[postIndex]
+	let root = BinaryTreeNode(value: rootValue, parent: nil)
+	postIndex -= 1
+	
+	if inStart == inEnd {
+		return root
+	}
+	
+	var rootIndex: Int!
+	for i in inStart...inEnd {
+		if inOrder[i] == rootValue {
+			rootIndex = i
+			break
+		}
+	}
+	
+	root.right = constructTree(inOrder: inOrder,
+	                           postOrder: postOrder,
+	                           inStart: rootIndex + 1,
+	                           inEnd: inEnd,
+	                           postIndex: &postIndex)
+	
+	root.left = constructTree(inOrder: inOrder,
+	                          postOrder: postOrder,
+	                          inStart: inStart,
+	                          inEnd: rootIndex - 1,
+	                          postIndex: &postIndex)
+	
+	return root
 }
