@@ -8,95 +8,94 @@
 
 import Foundation
 
-protocol HeapProtocol {
-    associatedtype Element: Comparable, Equatable
-    
-    var count: Int { get }
-    
-    func push(_ element: Element)
-    func pop() -> Element?
-    func siftUp()
-    func siftDown()
-}
-
-final class MinHeap<T where T: Comparable, T: Equatable>: HeapProtocol {
-    typealias Element = T
-    
-    private var array = [Element]()
+struct Heap<T: Comparable> {
+    private var arr = [T]()
+    private let isIncorrectOrder: (T, T) -> Bool
     
     var count: Int {
-        return self.array.count
+        return self.arr.count
     }
     
     var isEmpty: Bool {
-        return self.array.isEmpty
+        return self.arr.isEmpty
     }
     
-    func push(_ element: Element) {
-        self.array.append(element)
-        
-        self.siftUp()
-    }
     
-    func pop() -> Element? {
-        if self.array.count > 1 {
-            swap(&self.array[0], &self.array[self.array.count - 1])
-            let element = self.array.remove(at: self.array.count - 1)
-            self.siftDown()
-            return element
+    init(ascending: Bool = false, elements: [T] = []) {
+        if ascending {
+            self.isIncorrectOrder = { $0 > $1 }
+        } else {
+            self.isIncorrectOrder = { $0 < $1 }
         }
         
-        return self.array.popLast()
+        self.arr = elements
+        
+        var i = self.arr.count / 2 - 1
+        
+        while i >= 0 {
+            self.siftDown(i)
+            i -= 1
+        }
     }
     
-    func siftUp() {
-        var childIndex = self.count - 1
-        var parentIndex = 0
-        
-        if childIndex != 0 {
-            parentIndex = (childIndex - 1) / 2
+    func peek() -> T? {
+        return self.arr.first
+    }
+    
+    mutating func push(_ element: T) {
+        self.arr.append(element)
+        self.siftUp(self.arr.count - 1)
+    }
+    
+    mutating func pop() -> T? {
+        if self.arr.isEmpty {
+            return nil
         }
         
-        while childIndex > 0 {
-            let childToUse = self.array[childIndex]
-            let parentToUse = self.array[parentIndex]
+        if self.arr.count == 1 {
+            return self.arr.popLast()
+        }
+        
+        swap(&self.arr[0], &self.arr[self.arr.count - 1])
+        let removed = self.arr.popLast()
+        self.siftDown(0)
+        
+        return removed
+    }
+    
+    mutating func clear() {
+        self.arr.removeAll()
+    }
+    
+    private mutating func siftDown(_ index: Int) {
+        var i = index
+        let leftChildIndex = 2 * i + 1
+        
+        while leftChildIndex < self.arr.count {
+            var j = leftChildIndex
             
-            if childToUse < parentToUse {
-                swap(&self.array[childIndex], &self.array[parentIndex])
+            // Check which child should be swapped
+            if (j < self.arr.count - 1) && (self.isIncorrectOrder(self.arr[j], self.arr[j + 1])) {
+                j += 1
+            } else if !self.isIncorrectOrder(self.arr[i], self.arr[j]) {
+                break
             }
             
-            childIndex = parentIndex
-            parentIndex = (childIndex - 1) / 2
+            swap(&self.arr[i], &self.arr[j])
+            i = j
         }
     }
     
-    func siftDown() {
-        guard self.array.count > 1 else {
-            return
-        }
+    private mutating func siftUp(_ index: Int) {
+        var i = index
         
-        var parentIndex = 0
+        let parentIndex = (i - 1) / 2
         
-        while parentIndex < self.array.count / 2 {
-            let leftChild = self.array[2 * parentIndex]
-            let rightChild = self.array[2 * parentIndex + 1]
-            let minChildIndex = leftChild < rightChild ? (2 * parentIndex) : (2 * parentIndex + 1)
-            let parent = self.array[parentIndex]
-            
-            if parent > leftChild || parent > rightChild {
-                swap(&self.array[parentIndex], &self.array[minChildIndex])
-            }
-            
-            parentIndex = minChildIndex
+        while i > 0 && self.isIncorrectOrder(self.arr[parentIndex], self.arr[i]) {
+            swap(&self.arr[parentIndex], &self.arr[i])
+            i = parentIndex
         }
     }
     
-}
-
-extension MinHeap: CustomStringConvertible {
-    
-    var description: String {
-        return String(self.array)
-    }
     
 }
