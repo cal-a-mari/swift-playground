@@ -9,7 +9,7 @@
 import Foundation
 
 struct Heap<T: Comparable> {
-    private var arr = [T]()
+    var arr = [T]()
     private let isIncorrectOrder: (T, T) -> Bool
     
     var count: Int {
@@ -42,6 +42,10 @@ struct Heap<T: Comparable> {
         return self.arr.first
     }
     
+    mutating func clear() {
+        self.arr.removeAll()
+    }
+    
     mutating func push(_ element: T) {
         self.arr.append(element)
         self.siftUp(self.arr.count - 1)
@@ -63,21 +67,19 @@ struct Heap<T: Comparable> {
         return removed
     }
     
-    mutating func clear() {
-        self.arr.removeAll()
-    }
     
-    private mutating func siftDown(_ index: Int) {
+    mutating func siftDown(_ index: Int) {
         var i = index
-        let leftChildIndex = 2 * i + 1
         
-        while leftChildIndex < self.arr.count {
-            var j = leftChildIndex
+        while 2 * i + 1 < self.arr.count {
+            var j = 2 * i + 1
             
             // Check which child should be swapped
             if (j < self.arr.count - 1) && (self.isIncorrectOrder(self.arr[j], self.arr[j + 1])) {
                 j += 1
-            } else if !self.isIncorrectOrder(self.arr[i], self.arr[j]) {
+            }
+            
+            if !self.isIncorrectOrder(self.arr[i], self.arr[j]) {
                 break
             }
             
@@ -86,14 +88,12 @@ struct Heap<T: Comparable> {
         }
     }
     
-    private mutating func siftUp(_ index: Int) {
+    mutating func siftUp(_ index: Int) {
         var i = index
         
-        let parentIndex = (i - 1) / 2
-        
-        while i > 0 && self.isIncorrectOrder(self.arr[parentIndex], self.arr[i]) {
-            swap(&self.arr[parentIndex], &self.arr[i])
-            i = parentIndex
+        while i > 0 && self.isIncorrectOrder(self.arr[(i - 1) / 2], self.arr[i]) {
+            swap(&self.arr[(i - 1) / 2], &self.arr[i])
+            i = (i - 1) / 2
         }
     }
     
