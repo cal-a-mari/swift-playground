@@ -8,7 +8,8 @@
 
 import Foundation
 
-extension Array where Element: Comparable, Element: Hashable {
+extension Array where Element: Comparable {
+    
     // O(nlogn + mlogm)
     func intersection(withArray array: [Element]) -> [Element] {
         let arr1 = self.sorted { $0 < $1 } // O(nlogn)
