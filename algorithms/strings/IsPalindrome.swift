@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    
+    //O(n)
     var isPalindromeRecursion: Bool {
         return self.dynamicType.isPalindromeRecursion(str: self, i: self.startIndex, j: self.index(self.endIndex, offsetBy: -1))
     }
