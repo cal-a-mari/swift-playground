@@ -24,6 +24,26 @@ extension String {
         return isPalindrome && self.isPalindromeRecursion(str: str, i: str.index(i, offsetBy: 1), j: str.index(j, offsetBy: -1))
     }
     
+    var isPalindromeIterative: Bool {
+        guard self.characters.count > 1 else {
+            return true
+        }
+        
+        var i = self.startIndex
+        var j = self.index(self.endIndex, offsetBy: -1)
+        
+        while i <= j {
+            if self[i] != self[j] {
+                return false
+            }
+            
+            i = self.index(i, offsetBy: 1)
+            j = self.index(j, offsetBy: -1)
+        }
+        
+        return true
+    }
+    
     
     
 }
