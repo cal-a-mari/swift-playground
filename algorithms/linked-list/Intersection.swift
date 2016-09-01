@@ -63,7 +63,7 @@ func intersection2(ofListA llA: LinkedList<Int>, llB: LinkedList<Int>) -> Linked
         for _ in 0..<diff {
             ptrA = ptrA!.next
         }
-    } else if countA == countB {
+    } else if countA < countB {
         for _ in 0..<diff {
             ptrB = ptrB!.next
         }

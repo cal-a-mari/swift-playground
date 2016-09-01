@@ -9,6 +9,35 @@
 import Foundation
 
 extension String {
+    var recursivePermutations: [String] {
+        var res = [String]()
+        var chars = [Character]()
+        
+        for char in self.characters {
+            chars.append(char)
+        }
+        
+        self.dynamicType.permutationsOfString(string: chars, i: 0, results: &res)
+        
+        return res
+    }
+    
+    static func permutationsOfString(string: [Character], i: Int, results: inout [String]) {
+        if i == string.count {
+            results.append(String(string))
+        } else {
+            for k in i..<string.count {
+                var string = string
+                
+                if k != i {
+                    swap(&string[i], &string[k])
+                }
+                
+                self.permutationsOfString(string: string, i: i + 1, results: &results)
+            }
+        }
+    }
+    
     var permutations: [String] {
         var countMap = [Character: Int]()
         
@@ -41,6 +70,12 @@ extension String {
             self.permutations(ofString: string, currStr: newStr, countMap: newCount, results: &results)
         }
     }
+}
+
+func runPermutationTests() {
+    let str1 = "ABC"
+    print("Should be: [ABC, ACB, BAC, BCA, CBA, CAB]: \(str1.recursivePermutations)")
+    print("Should be: [CBA, CAB, BCA, BAC, ACB, ABC]: \(str1.permutations)")
 }
 
 

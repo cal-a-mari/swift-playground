@@ -46,6 +46,16 @@ func optLargestSum(inArray array: [Int]) -> Int {
     return maxSum
 }
 
+func largestSumTests() {
+    let arr1 = [-2, 1, -3, 4, -1, 2, 1, -5 ,4]
+    print("Should be 6: \(largestSum(inArray: arr1))")
+    print("Should be 6: \(optLargestSum(inArray: arr1))")
+    
+    let arr2 = [1, 2, -10]
+    print("Should be 3: \(largestSum(inArray: arr2))")
+    print("Should be 3: \(optLargestSum(inArray: arr2))")
+}
+
 
 
 
