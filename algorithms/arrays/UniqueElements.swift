@@ -23,28 +23,40 @@ extension Array where Element: Comparable {
         return self.count - dupeCount
     }
     
-    // Remove dupes in a sorted array
-    // O(n)
-    func removedDuplicates() -> [Element] {
-        var j = 0
-        var res = self
-        
-        for i in 1..<res.count {
-            if res[i] == res[j] {
-                continue
-            } else {
-                j += 1
-                res[j] = res[i]
-            }
-        }
-        
-        var copy = [Element]()
-        
-        for k in 0...j {
-            copy.append(res[k])
-        }
-        
-        return copy
+}
+
+// O(n) runtime and space
+func removedDuplicates(fromSortedArray array: [Int]) -> [Int] {
+    if array.isEmpty {
+        return []
     }
     
+    if array.count == 1 {
+        return array
+    }
+    
+    var res = [Int]()
+    res.append(array[0])
+    
+    for i in 1..<array.count {
+        if array[i - 1] != array[i] {
+            res.append(array[i])
+        }
+    }
+    
+    return res
+}
+
+func testRemovedDupes() {
+    let arr1 = [1, 2, 3]
+    assert(arr1 == removedDuplicates(fromSortedArray: arr1))
+    
+    let arr2 = [1, 1, 2, 2, 3]
+    let res2 = [1, 2, 3]
+    assert(res2 == removedDuplicates(fromSortedArray: arr2))
+    
+    let arr3 = [1]
+    assert(arr3 == removedDuplicates(fromSortedArray: arr3))
+    
+    print("Tests done")
 }
