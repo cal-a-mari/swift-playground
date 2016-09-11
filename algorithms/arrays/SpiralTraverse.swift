@@ -8,52 +8,77 @@
 
 import Foundation
 
-func spiralTraverse(matrix: [[Int]], m: Int, n: Int) -> [Int] {
-    var result = [Int]()
-    var m = m
-    var n = n
-    var k = 0 // row index
-    var l = 0 // col index
+func printSpiral(matrix: [[Int]]) -> [Int] {
+    if matrix.isEmpty {
+        return []
+    }
     
-    while (k < m) && (l < n) {
-        // print start of remaining rows
-        for i in l..<n {
-            result.append(matrix[k][i])
+    if matrix.first!.isEmpty {
+        return []
+    }
+    
+    var res = [Int]()
+    
+    var rowStart = 0
+    var rowEnd = matrix.count
+    
+    var colStart = 0
+    var colEnd = matrix.first!.count
+    
+    while rowStart < rowEnd && colStart < colEnd {
+        var i = colStart
+        while i < colEnd {
+            res.append(matrix[rowStart][i])
+            i += 1
         }
         
-        k += 1
+        rowStart += 1
         
-        // print last of remaining columns
-        for i in k..<m {
-            result.append(matrix[i][n - 1])
+        i = rowStart
+        while i < rowEnd {
+            res.append(matrix[i][colEnd - 1])
+            i += 1
         }
         
-        n -= 1
+        colEnd -= 1
         
-        // print last of remaining rows
-        if k < m {
-            var i = n - 1
-            
-            while i >= l {
-                result.append(matrix[m - 1][i])
+        if rowStart < rowEnd {
+            i = colEnd - 1
+            while i >= colStart {
+                res.append(matrix[rowEnd - 1][i])
                 i -= 1
             }
             
-            m -= 1
+            rowEnd -= 1
         }
         
-        // print first of remaining columns
-        if l < n {
-            var i = m - 1
-            
-            while i >= k {
-                result.append(matrix[i][l])
+        if colStart < colEnd {
+            i = rowEnd - 1
+            while i >= rowStart {
+                res.append(matrix[i][colStart])
                 i -= 1
             }
             
-            l += 1
+            colStart += 1
         }
     }
     
-    return result
+    return res
+}
+
+func spiralTraverseTests() {
+    let matrix1 = [[1, 2, 3, 4],
+                   [5, 6, 7, 8],
+                   [9, 10, 11, 12],
+                   [13, 14, 15, 16]]
+    let res1 = [1, 2, 3, 4, 8, 12, 16, 15, 14, 13, 9, 5, 6, 7, 11, 10]
+    let actualRes1 = printSpiral(matrix: matrix1)
+    assert(actualRes1 == res1)
+    
+    let matrix2 = [[1, 2, 3, 4, 5, 6],
+                   [7, 8, 9, 10, 11, 12],
+                   [13, 14, 15, 16, 17, 18]]
+    let res2 = [1, 2, 3, 4, 5, 6, 12, 18, 17, 16, 15, 14, 13, 7, 8, 9, 10, 11]
+    let actualRes2 = printSpiral(matrix: matrix2)
+    assert(actualRes2 == res2)
 }
