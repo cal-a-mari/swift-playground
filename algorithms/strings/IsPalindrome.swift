@@ -11,7 +11,7 @@ import Foundation
 extension String {
     //O(n)
     var isPalindromeRecursion: Bool {
-        return self.dynamicType.isPalindromeRecursion(str: self, i: self.startIndex, j: self.index(self.endIndex, offsetBy: -1))
+        return type(of: self).isPalindromeRecursion(str: self, i: self.startIndex, j: self.index(self.endIndex, offsetBy: -1))
     }
     
     private static func isPalindromeRecursion(str: String, i: Index, j: Index) -> Bool {

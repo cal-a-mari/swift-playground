@@ -12,7 +12,7 @@ extension Array where Element: Comparable {
     
     func frequencyOfElementInSortedArray(element: Element) -> Int {
         guard let firstIndex = self.findFirstIndex(ofElement: element, start: self.startIndex, end: self.endIndex - 1),
-                  lastIndex = self.findLastIndex(ofElement: element, start: firstIndex, end: self.endIndex - 1) else {
+                  let lastIndex = self.findLastIndex(ofElement: element, start: firstIndex, end: self.endIndex - 1) else {
             return 0
         }
         

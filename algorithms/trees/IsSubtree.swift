@@ -11,7 +11,7 @@ import Foundation
 extension BinaryTreeNode {
     
     func isSubtree(ofTree tree: BinaryTreeNode) -> Bool {
-        return self.dynamicType.tree(self, isSubtreeOfAnotherTree: tree)
+        return type(of: self).tree(self, isSubtreeOfAnotherTree: tree)
     }
     
     private static func tree(_ tree: BinaryTreeNode?, isSubtreeOfAnotherTree anotherTree: BinaryTreeNode?) -> Bool {

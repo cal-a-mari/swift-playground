@@ -11,7 +11,7 @@ import Foundation
 extension Array where Element: Comparable {
     
     var longestIncreasingSubsequence: Int {
-        return self.dynamicType.longestIncreasingSubsequence(array: self)
+        return type(of: self).longestIncreasingSubsequence(array: self)
     }
     
     private static func longestIncreasingSubsequence(array: [Element]) -> Int {

@@ -23,11 +23,11 @@ extension LinkedList {
             return 0
         }
         
-        if ptrA?.value > ptrB?.value {
-            return 1
-        } else {
-            return -1
+        if let a = ptrA?.value, let b = ptrB?.value {
+            return a > b ? 1 : -1
         }
+        
+        return -1
     }
     
 }

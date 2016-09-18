@@ -31,10 +31,10 @@ extension BinaryTreeNode {
             return true
         }
         
-        if let left = node.left where self.getAncestorsHelper(node: left, value: value, ancestors: &ancestors) {
+        if let left = node.left , self.getAncestorsHelper(node: left, value: value, ancestors: &ancestors) {
             ancestors.insert(node, at: 0)
             return true
-        } else if let right = node.right where self.getAncestorsHelper(node: right, value: value, ancestors: &ancestors) {
+        } else if let right = node.right , self.getAncestorsHelper(node: right, value: value, ancestors: &ancestors) {
             ancestors.insert(node, at: 0)
             return true
         }

@@ -10,7 +10,7 @@ import Foundation
 
 // Runtime: O(m + n)
 func search(element: Int, inSortedMatrix matrix: [[Int]]) -> Bool {
-    guard (matrix.count > 0) && (matrix.first?.count) > 0 else {
+    guard (matrix.count > 0) && (matrix.first!.count) > 0 else {
         return false
     }
     

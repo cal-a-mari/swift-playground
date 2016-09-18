@@ -31,11 +31,11 @@ private func closestValue(root: BinarySearchTreeNode<Int>, value: Int, minVal: i
         minVal = root.value
     }
     
-    if let left = root.left where value < root.value {
+    if let left = root.left , value < root.value {
         closestValue(root: left, value: value, minVal: &minVal)
     }
     
-    if let right = root.right where value > root.value {
+    if let right = root.right , value > root.value {
         closestValue(root: right, value: value, minVal: &minVal)
     }
 }

@@ -88,7 +88,7 @@ final class BinarySearchTreeNode<T where T: Comparable, T: Equatable> {
         
         // Case 3: If node has 2 children then get the smallest node in its subtree
         var parentOfSmallestNode = nodeToDelete
-        while let left = parentOfSmallestNode.left where left.left != nil {
+        while let left = parentOfSmallestNode.left, left.left != nil {
             parentOfSmallestNode = left
         }
         

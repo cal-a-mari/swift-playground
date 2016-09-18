@@ -46,7 +46,7 @@ func numberOfTransformations(beginWord: String, endWord: String, words: Set<Stri
         for i in 0..<chars.count {
             for alphabet in UnicodeScalar("a").value...UnicodeScalar("z").value {
                 var newChars = chars
-                newChars[i] = Character(UnicodeScalar(alphabet))
+                newChars[i] = Character(UnicodeScalar(alphabet)!)
                 let newWord = String(newChars)
                 
                 if words.contains(newWord) {

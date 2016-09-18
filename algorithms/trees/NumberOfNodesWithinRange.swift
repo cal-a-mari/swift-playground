@@ -18,12 +18,12 @@ extension BinarySearchTreeNode {
         let nodeValue = node.value as! Int
         
         var leftSubtreeCount = 0
-        if let left = node.left where nodeValue > min {
+        if let left = node.left , nodeValue > min {
             leftSubtreeCount = self.calculateNumberOfNodesHelper(node: left, min: min, max: max)
         }
         
         var rightSubtreeCount = 0
-        if let right = node.right where nodeValue < max {
+        if let right = node.right , nodeValue < max {
             rightSubtreeCount = self.calculateNumberOfNodesHelper(node: right, min: min, max: max)
         }
         
@@ -47,11 +47,11 @@ extension BinarySearchTreeNode {
                 counter += 1
             }
             
-            if let left = popped.left where left.value >= range.lowerBound {
+            if let left = popped.left , left.value >= range.lowerBound {
                 stack.push(element: left)
             }
             
-            if let right = popped.right where right.value < range.upperBound { // Range is not inclusive of its upper bound
+            if let right = popped.right , right.value < range.upperBound { // Range is not inclusive of its upper bound
                 stack.push(element: right)
             }
         }

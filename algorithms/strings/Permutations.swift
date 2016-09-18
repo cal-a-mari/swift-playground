@@ -17,7 +17,7 @@ extension String {
             chars.append(char)
         }
         
-        self.dynamicType.permutationsOfString(string: chars, i: 0, results: &res)
+        type(of: self).permutationsOfString(string: chars, i: 0, results: &res)
         
         return res
     }
@@ -47,7 +47,7 @@ extension String {
         }
         
         var results = [String]()
-        self.dynamicType.permutations(ofString: self, currStr: [Character](), countMap: countMap, results: &results)
+        type(of: self).permutations(ofString: self, currStr: [Character](), countMap: countMap, results: &results)
         return results
     }
     

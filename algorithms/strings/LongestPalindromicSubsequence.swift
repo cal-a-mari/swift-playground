@@ -11,7 +11,7 @@ import Foundation
 extension String {
     
     var longestPalindromicSubsequence: Int {
-        return self.dynamicType.lpc(string: self, i: self.startIndex, j: self.index(self.endIndex, offsetBy: -1))
+        return type(of: self).lpc(string: self, i: self.startIndex, j: self.index(self.endIndex, offsetBy: -1))
     }
     
     private static func lpc(string: String, i: Index, j: Index) -> Int {
@@ -32,7 +32,7 @@ extension String {
     }
     
     var optimizedLongestPalindromicSubsequence: Int {
-        return self.dynamicType.lpc(string: self)
+        return type(of: self).lpc(string: self)
     }
     
     private static func lpc(string: String) -> Int {

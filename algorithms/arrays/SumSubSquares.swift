@@ -100,7 +100,7 @@ func subsquareTests() {
     
     let matrix2 = [[1, 1, 1],
                    [1, 1, 1]]
-    let res2 = []
+    let res2 = [Int]()
     let actualRes2 = optSum(ofAllSubsquares: 3, inMatrix: matrix2)
     assert(actualRes2 == res2)
 }

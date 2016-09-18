@@ -40,10 +40,10 @@ extension BinaryTreeNode {
         if node.value == value {
             currPath.insert(node, at: 0)
             return true
-        } else if let left = node.left where self.path(toValue: value, node: left, currPath: &currPath) {
+        } else if let left = node.left , self.path(toValue: value, node: left, currPath: &currPath) {
             currPath.insert(node, at: 0)
             return true
-        } else if let right = node.right where self.path(toValue: value, node: right, currPath: &currPath) {
+        } else if let right = node.right , self.path(toValue: value, node: right, currPath: &currPath) {
             currPath.insert(node, at: 0)
             return true
         } else {
