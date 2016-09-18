@@ -36,22 +36,18 @@ func clockwiseRotateElements(matrix: inout [[Int]]) {
     }
     
     var rowStart = 0
-    var rowEnd = matrix.count
+    var rowEnd = matrix.count - 1
     var colStart = 0
-    var colEnd = matrix.first!.count
+    var colEnd = matrix.first!.count - 1
     
-    while rowStart < rowEnd && colStart < colEnd {
-        if rowStart + 1 == rowEnd || colStart + 1 == colEnd {
-            return
-        }
-        
+    while rowStart <= rowEnd && colStart <= colEnd {
         // Store the first element of next row, this
         // element will replace first element of current
         // row
         var prev = matrix[rowStart + 1][colStart]
         
         var i = colStart
-        while i < colEnd {
+        while i <= colEnd {
             let curr = matrix[rowStart][i]
             matrix[rowStart][i] = prev
             prev = curr
@@ -61,30 +57,31 @@ func clockwiseRotateElements(matrix: inout [[Int]]) {
         rowStart += 1
         
         i = rowStart
-        while i < rowEnd {
-            let curr = matrix[i][colEnd - 1]
-            matrix[i][rowEnd - 1] = prev
+        while i <= rowEnd {
+            let curr = matrix[i][colEnd]
+            matrix[i][colEnd] = prev
             prev = curr
             i += 1
         }
         
         colEnd -= 1
         
-        if rowStart < rowEnd {
-            var i = colEnd - 1
+        if rowStart <= rowEnd {
+            var i = colEnd
             
             while i >= colStart {
-                let curr = matrix[rowEnd - 1][i]
-                matrix[rowEnd - 1][i] = prev
+                let curr = matrix[rowEnd][i]
+                matrix[rowEnd][i] = prev
                 prev = curr
                 i -= 1
             }
+            
+            rowEnd -= 1
         }
         
-        rowEnd -= 1
         
-        if colStart < colEnd {
-            var i = rowEnd - 1
+        if colStart <= colEnd {
+            var i = rowEnd
             
             while i >= rowStart {
                 let curr = matrix[i][colStart]
@@ -92,9 +89,10 @@ func clockwiseRotateElements(matrix: inout [[Int]]) {
                 prev = curr
                 i -= 1
             }
+            
+            colStart += 1
         }
         
-        colStart += 1
     }
     
 }
@@ -110,4 +108,11 @@ func rotateMatrix2Tests() {
                 [14, 15, 16, 12]]
     clockwiseRotateElements(matrix: &matrix1)
     assert(res1 == matrix1)
+    
+    var matrix2 = [[1, 2, 3],
+                   [4, 5, 6]]
+    let res2 = [[4, 1, 2],
+                [5, 6, 3]]
+    clockwiseRotateElements(matrix: &matrix2)
+    assert(res2 == matrix2)
 }
