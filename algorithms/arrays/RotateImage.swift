@@ -13,7 +13,7 @@ import Foundation
  
  Rotate the image by 90 degrees (clockwise).
  */
-func rotate(matrix: inout [[Int]]) {
+func imageRotate(matrix: inout [[Int]]) {
     if matrix.isEmpty {
         return
     }
@@ -40,8 +40,9 @@ func rotateTests() {
     var matrix1 = [[1, 2, 3],
                    [4, 5, 6],
                    [7, 8, 9]]
-    let _ = [[7, 4, 1],
+    let res1 = [[7, 4, 1],
              [8, 5, 2],
              [9, 6, 3]]
-    print(rotate(matrix: &matrix1))
+    imageRotate(matrix: &matrix1)
+    assert(res1 == matrix1)
 }
