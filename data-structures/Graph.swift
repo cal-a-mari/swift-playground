@@ -9,7 +9,7 @@
 
 import Foundation
 
-final class Edge<T where T: Equatable, T: Hashable> {
+final class Edge<T> where T: Equatable, T: Hashable {
     var neighbor: Vertex<T>
     var weight: Int
     
@@ -19,7 +19,7 @@ final class Edge<T where T: Equatable, T: Hashable> {
     }
 }
 
-final class Vertex<T where T: Equatable, T: Hashable> {
+final class Vertex<T> where T: Equatable, T: Hashable {
     var value: T
     var neighbors = [Edge<T>]()
     
