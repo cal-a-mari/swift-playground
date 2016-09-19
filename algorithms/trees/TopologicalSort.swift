@@ -9,17 +9,17 @@
 import Foundation
 
 extension GraphProtocol {
-    var topologicalSort: [T] {
+    var topologicalSort: [Vertex<T>] {
         var visited = Set<T>()
         var stack = Stack<Vertex<T>>()
-        var res = [T]()
+        var res = [Vertex<T>]()
         
         for vertex in self.canvas {
             self.topologicalSort(node: vertex, visited: &visited, stack: &stack)
         }
         
         while !stack.isEmpty {
-            res.append(stack.pop().value)
+            res.append(stack.pop())
         }
         
         return res

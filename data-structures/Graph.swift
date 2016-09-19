@@ -19,13 +19,21 @@ final class Edge<T> where T: Equatable, T: Hashable {
     }
 }
 
-final class Vertex<T> where T: Equatable, T: Hashable {
+final class Vertex<T>: Hashable, Equatable where T: Equatable, T: Hashable {
     var value: T
     var neighbors = [Edge<T>]()
+    
+    var hashValue: Int {
+        return self.value.hashValue
+    }
     
     init(value: T) {
         self.value = value
     }
+}
+
+func ==<T>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
+    return lhs.value == rhs.value
 }
 
 protocol GraphProtocol {
