@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class LinkedList<T where T: Comparable, T: Equatable> {
+final class LinkedList<T> where T: Comparable, T: Equatable {
     typealias Node = LinkedListNode<T>
     var head: Node?
 }
@@ -31,7 +31,7 @@ extension LinkedList: CustomStringConvertible {
     
 }
 
-final class LinkedListNode<T where T:Comparable, T: Equatable> {
+final class LinkedListNode<T> where T:Comparable, T: Equatable {
     var value: T
     var next: LinkedListNode?
     weak var previous: LinkedListNode?
