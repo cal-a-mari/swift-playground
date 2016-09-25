@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class LinkedList<T> where T: Comparable, T: Equatable {
+final class LinkedList<T> where T: Comparable, T: Equatable, T: Hashable {
     typealias Node = LinkedListNode<T>
     var head: Node?
 }
@@ -16,22 +16,21 @@ final class LinkedList<T> where T: Comparable, T: Equatable {
 extension LinkedList: CustomStringConvertible {
     
     var description: String {
-        var desc = "HEAD"
+        var res = [T]()
+        
         var currNode = self.head
         
         while let node = currNode {
-            desc += "\(node.description)-->"
-            currNode = currNode?.next
+            res.append(node.value)
+            currNode = currNode!.next
         }
         
-        desc += "END"
-        
-        return desc
+        return String(describing: res)
     }
     
 }
 
-final class LinkedListNode<T> where T:Comparable, T: Equatable {
+final class LinkedListNode<T> where T:Comparable, T: Equatable, T: Hashable {
     var value: T
     var next: LinkedListNode?
     weak var previous: LinkedListNode?
