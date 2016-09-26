@@ -18,9 +18,14 @@ extension LinkedList: CustomStringConvertible {
     var description: String {
         var res = [T]()
         
-        var currNode = self.head
+        guard let head = self.head else {
+            return String(describing: res)
+        }
         
-        while let node = currNode {
+        res.append(head.value)
+        var currNode = head.next
+        
+        while let node = currNode, node !== self.head {
             res.append(node.value)
             currNode = currNode!.next
         }
