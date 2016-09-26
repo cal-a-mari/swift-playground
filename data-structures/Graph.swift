@@ -9,7 +9,7 @@
 
 import Foundation
 
-final class Edge<T> where T: Equatable, T: Hashable {
+final class Edge<T> where T: Equatable, T: Hashable, T: Comparable {
     var neighbor: Vertex<T>
     var weight: Int
     
@@ -19,7 +19,7 @@ final class Edge<T> where T: Equatable, T: Hashable {
     }
 }
 
-final class Vertex<T>: Hashable, Equatable where T: Equatable, T: Hashable {
+final class Vertex<T>: Hashable, Equatable, Comparable where T: Equatable, T: Hashable, T: Comparable {
     var value: T
     var neighbors = [Edge<T>]()
     
@@ -32,12 +32,28 @@ final class Vertex<T>: Hashable, Equatable where T: Equatable, T: Hashable {
     }
 }
 
+func <<T>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
+    return lhs.value < rhs.value
+}
+
+func ><T>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
+    return lhs.value > rhs.value
+}
+
+func <=<T>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
+    return lhs.value <= rhs.value
+}
+
+func >=<T>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
+    return lhs.value >= rhs.value
+}
+
 func ==<T>(lhs: Vertex<T>, rhs: Vertex<T>) -> Bool {
     return lhs.value == rhs.value
 }
 
 protocol GraphProtocol {
-    associatedtype T: Hashable, Equatable
+    associatedtype T: Hashable, Equatable, Comparable
     
     var canvas: [Vertex<T>] { get set }
     var isDirected: Bool { get }
