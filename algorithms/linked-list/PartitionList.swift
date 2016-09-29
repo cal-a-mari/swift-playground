@@ -18,35 +18,35 @@ import Foundation
  return 1->2->2->4->3->5.
  */
 // O(n) runtime and O(1) space
-func partition(linkedList: LinkedList<Int>, x: Int) {
-    if linkedList.head == nil {
+func partition(ll: LinkedList<Int>, val: Int) {
+    if ll.head == nil {
         return
     }
     
-    var currNode: LinkedListNode<Int>? = linkedList.head
+    let less = LinkedListNode(value: 0)
+    let great = LinkedListNode(value: 0)
     
-    let greaterThanList = LinkedListNode(value: 0)
-    var tail = greaterThanList
+    var l = less
+    var g = great
     
-    let lessThanList = LinkedListNode(value: 0)
-    lessThanList.next = linkedList.head
-    var pre = lessThanList
+    var curr: LinkedListNode<Int>? = ll.head!
     
-    while currNode != nil {
-        if currNode!.value >= x {
-            pre.next = currNode!.next
-            tail.next = currNode
-            tail = tail.next!
-            currNode = currNode!.next
-            tail.next = nil
+    while curr != nil {
+        if curr!.value < val {
+            l.next = curr
+            l = l.next!
         } else {
-            pre = currNode!
-            currNode = currNode!.next
+            g.next = curr
+            g = g.next!
         }
+        
+        let temp = curr!.next
+        curr!.next = nil
+        curr = temp
     }
     
-    pre.next = greaterThanList.next
-    linkedList.head = lessThanList.next
+    l.next = great.next
+    ll.head = less.next
 }
 
 func partitionTests() {
@@ -65,6 +65,22 @@ func partitionTests() {
     node4.next = node5
     node5.next = node6
     
-    partition(linkedList: ll1, x: 3)
-    print(ll1)
+    partition(ll: ll1, val: 3)
+    assert(ll1.description == "[1, 2, 2, 4, 3, 5]")
+    
+    let node7 = LinkedListNode(value: 1)
+    let ll2 = LinkedList<Int>()
+    ll2.head = node7
+    partition(ll: ll2, val: 2)
+    assert(ll2.description == "[1]")
+    
+    let node8 = LinkedListNode(value: 1)
+    let node9 = LinkedListNode(value: 10)
+    node8.next = node9
+    let ll3 = LinkedList<Int>()
+    ll3.head = node8
+    partition(ll: ll3, val: 5)
+    assert(ll3.description == "[1, 10]")
+    
+    print("Done")
 }
